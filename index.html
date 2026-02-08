@@ -258,23 +258,45 @@
     align-items: center;
   }
 
+  /* ✅ UPDATED: gifts are ONLY the image (no white box) */
   .gift-box {
-    width: 180px;
-    height: 180px;
-    border-radius: 26px;
-    background: rgba(255,255,255,0.38);
-    border: 3px solid rgba(255,107,154,0.55);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     user-select: none;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transform: translateZ(0);
-    animation: giftIdle 2.4s ease-in-out infinite;
+    animation: none;
+  }
+
+  .gift-img {
+    width: 170px;
+    height: 170px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 16px 26px rgba(0,0,0,0.18));
+    transform: translateZ(0);
+  }
+
+  /* ✅ Bounce when opened (clicked) */
+  .gift-box.bounce .gift-img {
+    animation: giftBounce 0.65s ease;
+  }
+
+  @keyframes giftBounce {
+    0%   { transform: scale(1) translateY(0); }
+    30%  { transform: scale(1.06) translateY(-8px); }
+    55%  { transform: scale(0.98) translateY(2px); }
+    75%  { transform: scale(1.02) translateY(-3px); }
+    100% { transform: scale(1) translateY(0); }
   }
 
   @keyframes giftIdle {
@@ -300,6 +322,7 @@
       radial-gradient(circle at 30% 30%, rgba(255,77,109,0.20), transparent 45%),
       radial-gradient(circle at 70% 70%, rgba(255,157,187,0.22), transparent 50%);
     pointer-events: none;
+    display: none;
   }
 
   /* Gift pages */
@@ -505,16 +528,13 @@
 
   <div class="gift-row fade-up delay-1">
     <div class="gift-box" id="gift1">
-      <div class="gift-emoji">🎁</div>
-      <div class="gift-label">1</div>
+      <img class="gift-img" src="gift.png" alt="">
     </div>
     <div class="gift-box" id="gift2">
-      <div class="gift-emoji">🎁</div>
-      <div class="gift-label">2</div>
+      <img class="gift-img" src="gift.png" alt="">
     </div>
     <div class="gift-box" id="gift3">
-      <div class="gift-emoji">🎁</div>
-      <div class="gift-label">3</div>
+      <img class="gift-img" src="gift.png" alt="">
     </div>
   </div>
 </div>
@@ -738,9 +758,22 @@ document.addEventListener("DOMContentLoaded", () => {
     giftPageEl.style.display = "none";
   }
 
-  document.getElementById("gift1").onclick = () => { openGift(gift1Page); startSong(); };
-  document.getElementById("gift2").onclick = () => { openGift(gift2Page); };
-  document.getElementById("gift3").onclick = () => { openGift(gift3Page); };
+  /* ✅ Bounce on click, then open */
+  function bounceThenOpen(giftBoxEl, giftPageEl, afterOpenFn) {
+    giftBoxEl.classList.remove("bounce");
+    void giftBoxEl.offsetWidth;
+    giftBoxEl.classList.add("bounce");
+
+    setTimeout(() => {
+      giftBoxEl.classList.remove("bounce");
+      openGift(giftPageEl);
+      if (afterOpenFn) afterOpenFn();
+    }, 260);
+  }
+
+  document.getElementById("gift1").onclick = (e) => { bounceThenOpen(e.currentTarget, gift1Page, startSong); };
+  document.getElementById("gift2").onclick = (e) => { bounceThenOpen(e.currentTarget, gift2Page); };
+  document.getElementById("gift3").onclick = (e) => { bounceThenOpen(e.currentTarget, gift3Page); };
 
   document.getElementById("backFromGift1").onclick = () => closeGift(gift1Page);
   document.getElementById("backFromGift2").onclick = () => closeGift(gift2Page);
