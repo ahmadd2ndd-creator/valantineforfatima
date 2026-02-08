@@ -588,29 +588,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  function applyTheme(key) {
-    const t = THEMES[key];
-    if (!t) return;
-
-    document.documentElement.style.background = t.bg;
-    document.body.style.background = t.bg;
-    document.body.style.color = t.text;
-
-    // page 3 title was explicitly wine/purple-ish: keep synced to page 3 text color
-    const p3Title = document.querySelector(".p3-title");
-    if (p3Title) p3Title.style.color = t.text;
-
-    // gift pages background + text should match page3 theme
-    const giftPages = document.querySelectorAll(".gift-page");
-    giftPages.forEach(gp => {
-      gp.style.background = t.bg;
-      gp.style.color = t.text;
-    });
-
-    // update hearts palette
-    heartColors = t.hearts;
-  }
-
   /* HEARTS (palette changes per page) */
   let heartColors = THEMES.page1.hearts;
 
@@ -620,6 +597,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const WARM_START_MS = 2000;
   const startTime = Date.now();
   const heartsLayer = document.getElementById("heartsLayer");
+
+  function applyTheme(key) {
+    const t = THEMES[key];
+    if (!t) return;
+
+    document.documentElement.style.background = t.bg;
+    document.body.style.background = t.bg;
+    document.body.style.color = t.text;
+
+    const p3Title = document.querySelector(".p3-title");
+    if (p3Title) p3Title.style.color = t.text;
+
+    const giftPages = document.querySelectorAll(".gift-page");
+    giftPages.forEach(gp => {
+      gp.style.background = t.bg;
+      gp.style.color = t.text;
+    });
+
+    /* ✅ FIX: force new heart colors to show by clearing old hearts */
+    heartsLayer.innerHTML = "";
+    activeHearts = 0;
+
+    heartColors = t.hearts;
+  }
 
   function createHeart() {
     if (activeHearts >= MAX_HEARTS) return;
@@ -705,19 +706,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ✅ Page 2 → Page 3: Curtain reveal (whole page slides LEFT, slightly darker only while sliding) */
   function curtainLeftToPage(fromEl, toEl) {
-    // page3 visible underneath
     toEl.style.display = "flex";
 
-    // put page3 behind page2 during the slide
     toEl.style.zIndex = "1";
     fromEl.style.zIndex = "2";
 
     fromEl.classList.add("transitioning");
     toEl.classList.add("transitioning");
 
-    // subtle reveal on page3
     toEl.classList.add("curtain-reveal-in");
-    // slide page2 away (and darken only while sliding)
     fromEl.classList.add("curtain-left-out");
 
     setTimeout(() => {
@@ -726,7 +723,6 @@ document.addEventListener("DOMContentLoaded", () => {
       fromEl.classList.remove("transitioning", "curtain-left-out");
       toEl.classList.remove("transitioning", "curtain-reveal-in");
 
-      // reset z-index so normal layout continues
       fromEl.style.zIndex = "";
       toEl.style.zIndex = "";
     }, 3000);
@@ -744,7 +740,6 @@ document.addEventListener("DOMContentLoaded", () => {
     applyTheme("page2");
     zoomFadeToPage(page1, page2);
 
-    // show "One more thing..." after 5s on page2
     moreBtn.classList.remove("show");
     setTimeout(() => {
       if (page2.style.display === "flex") moreBtn.classList.add("show");
@@ -817,8 +812,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const curTimeEl = document.getElementById("curTime");
   const endTimeEl = document.getElementById("endTime");
 
-  const START_AT = 18;  // 0:18
-  const END_AT = 146;   // 2:26
+  const START_AT = 18;
+  const END_AT = 146;
   endTimeEl.textContent = "2:26";
 
   let progressTimer = null;
