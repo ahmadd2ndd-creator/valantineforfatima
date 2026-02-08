@@ -30,7 +30,7 @@
   #heartsLayer {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: 10;
     pointer-events: none;
   }
 
@@ -40,7 +40,7 @@
     bottom: -40px;
     animation: floatFade linear infinite;
     opacity: 0;
-    z-index: 0;
+    z-index: 10;
     pointer-events: none;
   }
 
@@ -720,8 +720,6 @@ document.addEventListener("DOMContentLoaded", () => {
     moreBtn.classList.remove("show");
 
     curtainLeftToPage(page2, page3);
-
-    showHearts(true);
   };
 
   /* PAGE 3 gift pages */
