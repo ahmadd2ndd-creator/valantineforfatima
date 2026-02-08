@@ -331,77 +331,131 @@
     z-index: 7;
   }
 
-  /* Gift 1 */
-  .spotify-card {
+  /* ✅ GIFT 1 PAGE: soft cream background (only this page) */
+  #gift1Page {
+    background: #FFF6E8;
+  }
+
+  /* ✅ NEW minimal pastel music card */
+  .music-card {
     width: 360px;
     border-radius: 28px;
-    background: rgba(255,255,255,0.55);
-    border: 3px solid rgba(255,107,154,0.55);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
     padding: 18px 18px 16px 18px;
-    backdrop-filter: blur(6px);
+    text-align: center;
+
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgba(255,255,255,0.65) 0px,
+        rgba(255,255,255,0.65) 6px,
+        rgba(255,244,238,0.72) 6px,
+        rgba(255,244,238,0.72) 12px
+      );
+    border: 2px solid rgba(214, 160, 175, 0.35);
+    box-shadow: 0 18px 46px rgba(0,0,0,0.12);
+    backdrop-filter: blur(4px);
   }
 
-  .spotify-top {
-    display: flex;
-    gap: 14px;
-    align-items: center;
-  }
-
-  .cover {
-    width: 92px;
-    height: 92px;
+  .album-cover {
+    width: 120px;
+    height: 120px;
     border-radius: 18px;
     object-fit: cover;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    display: block;
+    margin: 0 auto 12px auto;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
   }
 
-  .song-meta { text-align: left; flex: 1; }
-  .song-title { font-size: 34px; margin: 0; line-height: 1.05; }
-  .song-artist { font-size: 22px; margin: 6px 0 0 0; opacity: 0.75; }
+  .music-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 26px;
+    margin: 6px 0 0 0;
+    color: #7a4b58;
+  }
 
-  .controls {
-    margin-top: 14px;
+  .music-artist {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    margin: 6px 0 0 0;
+    color: rgba(122, 75, 88, 0.75);
+  }
+
+  .music-controls {
+    margin-top: 16px;
     display: flex;
-    gap: 12px;
     align-items: center;
     justify-content: center;
+    gap: 18px;
   }
 
-  .iconBtn {
-    width: 56px;
-    height: 56px;
+  .miniBtn {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    border: 3px solid #ff6b9a;
-    background: #ff2f68;
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
+    border: 2px solid rgba(214, 160, 175, 0.45);
+    background: rgba(255, 232, 238, 0.9);
+    color: #7a4b58;
+    font-size: 18px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     transition: transform 0.15s ease;
   }
-  .iconBtn:active { transform: scale(0.96); }
+  .miniBtn:active { transform: scale(0.96); }
 
-  .bar {
-    width: 100%;
-    height: 10px;
-    background: rgba(255,255,255,0.75);
-    border-radius: 999px;
-    overflow: hidden;
-    border: 2px solid rgba(255,107,154,0.35);
-    margin-top: 12px;
-  }
-  .bar > div { height: 100%; width: 0%; background: rgba(255,47,104,0.85); }
-
-  .timeRow {
-    margin-top: 8px;
+  .mainPlay {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid rgba(214, 160, 175, 0.55);
+    background: rgba(255, 200, 214, 0.95);
+    color: #7a4b58;
+    font-size: 22px;
+    padding: 0;
     display: flex;
-    justify-content: space-between;
-    font-size: 18px;
-    opacity: 0.7;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.15s ease;
   }
+  .mainPlay:active { transform: scale(0.96); }
+
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    margin-top: 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(214, 160, 175, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #progressFill {
+    height: 100%;
+    width: 0%;
+    background: rgba(214, 160, 175, 0.55);
+    border-radius: 999px;
+  }
+
+  #progressKnob {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255, 232, 238, 0.98);
+    border: 2px solid rgba(214, 160, 175, 0.6);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  }
+
+  /* Keep ids used by JS, but hide time row for the minimal look */
+  .timeRow { display: none; }
 
   /* Gift 2 stickers */
   .sticker-wrap {
@@ -515,22 +569,22 @@
 
 <!-- GIFT 1 PAGE -->
 <div id="gift1Page" class="gift-page">
-  <div class="spotify-card">
-    <div class="spotify-top">
-      <img class="cover" src="cover.jpg" alt="">
-      <div class="song-meta">
-        <p class="song-title">Arz Kya hn</p>
-        <p class="song-artist">Anuv Jain</p>
-      </div>
+  <div class="music-card">
+    <img class="album-cover" src="cover.jpg" alt="">
+    <div class="music-title">Arz Kiya Hai</div>
+    <div class="music-artist">Anuv Jain</div>
+
+    <div class="music-controls">
+      <button class="miniBtn" id="prevBtn" type="button">⏮</button>
+      <button class="mainPlay" id="playPauseBtn" type="button">▶</button>
+      <button class="miniBtn" id="nextBtn" type="button">⏭</button>
     </div>
 
-    <div class="controls">
-      <button class="iconBtn" id="playPauseBtn" type="button">▶</button>
-    </div>
-
-    <div class="bar">
+    <div class="progress-track">
       <div id="progressFill"></div>
+      <div id="progressKnob"></div>
     </div>
+
     <div class="timeRow">
       <span id="curTime">0:00</span>
       <span id="endTime">2:26</span>
@@ -595,7 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const MIN_HEARTS = 35;
   const MAX_HEARTS = 55;
   const WARM_START_MS = 2000;
-  let startTime = Date.now(); /* ✅ CHANGED: was const */
+  let startTime = Date.now();
   const heartsLayer = document.getElementById("heartsLayer");
 
   function applyTheme(key) {
@@ -611,6 +665,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const giftPages = document.querySelectorAll(".gift-page");
     giftPages.forEach(gp => {
+      if (gp.id === "gift1Page") return; /* ✅ keep Gift 1 cream background */
       gp.style.background = t.bg;
       gp.style.color = t.text;
     });
@@ -809,6 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const song = document.getElementById("giftSong");
   const playPauseBtn = document.getElementById("playPauseBtn");
   const progressFill = document.getElementById("progressFill");
+  const progressKnob = document.getElementById("progressKnob");
   const curTimeEl = document.getElementById("curTime");
   const endTimeEl = document.getElementById("endTime");
 
@@ -865,6 +921,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const total = (END_AT - START_AT);
       const pct = Math.min(100, Math.max(0, ((cur - START_AT) / total) * 100));
       progressFill.style.width = pct + "%";
+      progressKnob.style.left = pct + "%";
       curTimeEl.textContent = fmtTime(Math.max(0, cur - START_AT));
     }, 120);
   }
@@ -898,6 +955,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resetToStart) song.currentTime = START_AT;
     playPauseBtn.textContent = "▶";
     progressFill.style.width = "0%";
+    progressKnob.style.left = "0%";
     curTimeEl.textContent = "0:00";
     fading = false;
   }
