@@ -78,12 +78,6 @@
 
   #page1 { display: flex; }
 
-  /* ✅ PAGE 1 NEW BACKGROUND + TEXT COLOR (ONLY PAGE 1) */
-  #page1 {
-    background: linear-gradient(to bottom, #c98394 0%, #b96f86 55%, #a95e78 100%); /* dusty rose (darker) */
-    color: #4a1030; /* deep wine rose for strong contrast */
-  }
-
   /* TITLE */
   h1 {
     font-size: 76px;
@@ -113,21 +107,10 @@
     transition: transform 0.4s ease;
   }
 
-  /* ✅ PAGE 1 BUTTON COLORS (ONLY FOR YES/NO on page 1) */
-  #page1 #yesBtn {
-    background: #6b1738;   /* deep berry */
-    color: #fff1f6;        /* soft off-white */
-    border: 3px solid #fff1f6;
-  }
-
-  #page1 #noBtn {
-    background: rgba(255, 241, 246, 0.85); /* soft off-white */
-    color: #6b1738;                         /* deep berry */
-    border: 3px solid #6b1738;
-  }
-
-  /* YES BUTTON POSITION (kept same) */
+  /* YES BUTTON */
   #yesBtn {
+    background: #ff2f68;
+    color: white;
     position: absolute;
     left: 0;
     top: 0;
@@ -135,8 +118,9 @@
   }
   #yesBtn:active, #yesBtn:focus { outline: none; }
 
-  /* NO BUTTON POSITION (kept same) */
+  /* NO BUTTON */
   #noBtn {
+    background: white;
     margin-left: 180px;
   }
 
@@ -144,7 +128,7 @@
   .love-line {
     font-size: 34px;
     margin-top: 0;
-    opacity: 0.9;
+    opacity: 0.85;
   }
 
   /* PAGE 2 */
@@ -211,10 +195,10 @@
 
   /* ✅ Page 2 → Page 3: Curtain (single panel slide LEFT) + slightly darker while sliding */
   .curtain-left-out {
-    animation: curtainLeftOut 1.5s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+    animation: curtainLeftOut 3s cubic-bezier(0.25, 1, 0.35, 1) forwards;
   }
   .curtain-reveal-in {
-    animation: curtainRevealIn 1.5s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+    animation: curtainRevealIn 3s cubic-bezier(0.25, 1, 0.35, 1) forwards;
   }
 
   @keyframes curtainLeftOut {
@@ -241,7 +225,7 @@
     cursor: pointer;
     z-index: 5;
 
-    display: none;
+    display: none;          /* ✅ prevents invisible click blocking */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.8s ease;
@@ -593,32 +577,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* HEARTS */
-  const heartPalettes = {
-    page1: ["#ffd6e7", "#ff9dbb"],
-    page2: ["#ff7aa2", "#c63b6f"],
-    page3: ["#fff2f6", "#ffb0c7"]
-  };
-
+  const heartColors = ["#ff9dbb", "#ff4d6d"];
   let activeHearts = 0;
   const MIN_HEARTS = 35;
   const MAX_HEARTS = 55;
   const WARM_START_MS = 2000;
   const startTime = Date.now();
   const heartsLayer = document.getElementById("heartsLayer");
-
-  function getActivePageId() {
-    const pages = ["page1", "page2", "page3"];
-    for (const id of pages) {
-      const el = document.getElementById(id);
-      if (el && el.style.display === "flex") return id;
-    }
-    return "page1";
-  }
-
-  function getHeartColors() {
-    const active = getActivePageId();
-    return heartPalettes[active] || heartPalettes.page1;
-  }
 
   function createHeart() {
     if (activeHearts >= MAX_HEARTS) return;
@@ -629,10 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     h.style.left = Math.random() * 100 + "vw";
     h.style.fontSize = (14 + Math.random() * 20) + "px";
-
-    const colors = getHeartColors();
-    h.style.color = colors[Math.floor(Math.random() * colors.length)];
-
+    h.style.color = heartColors[Math.floor(Math.random() * heartColors.length)];
     h.style.animationDuration = (10 + Math.random() * 1.5) + "s";
 
     if (Date.now() - startTime < WARM_START_MS) {
@@ -663,8 +625,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function showHearts(show) {
     heartsLayer.style.display = show ? "block" : "none";
   }
-
-  showHearts(true);
 
   /* NO BUTTON */
   const noBtn = document.getElementById("noBtn");
@@ -709,15 +669,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ✅ Page 2 → Page 3: Curtain reveal (whole page slides LEFT, slightly darker only while sliding) */
   function curtainLeftToPage(fromEl, toEl) {
+    // page3 visible underneath
     toEl.style.display = "flex";
 
+    // put page3 behind page2 during the slide
     toEl.style.zIndex = "1";
     fromEl.style.zIndex = "2";
 
     fromEl.classList.add("transitioning");
     toEl.classList.add("transitioning");
 
+    // subtle reveal on page3
     toEl.classList.add("curtain-reveal-in");
+    // slide page2 away (and darken only while sliding)
     fromEl.classList.add("curtain-left-out");
 
     setTimeout(() => {
@@ -726,9 +690,10 @@ document.addEventListener("DOMContentLoaded", () => {
       fromEl.classList.remove("transitioning", "curtain-left-out");
       toEl.classList.remove("transitioning", "curtain-reveal-in");
 
+      // reset z-index so normal layout continues
       fromEl.style.zIndex = "";
       toEl.style.zIndex = "";
-    }, 1500);
+    }, 3000);
   }
 
   /* YES BUTTON (page1 -> page2) */
@@ -739,6 +704,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     zoomFadeToPage(page1, page2);
 
+    // show "One more thing..." after 5s on page2
     moreBtn.classList.remove("show");
     setTimeout(() => {
       if (page2.style.display === "flex") moreBtn.classList.add("show");
@@ -785,8 +751,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const curTimeEl = document.getElementById("curTime");
   const endTimeEl = document.getElementById("endTime");
 
-  const START_AT = 18;
-  const END_AT = 146;
+  const START_AT = 18;  // 0:18
+  const END_AT = 146;   // 2:26
   endTimeEl.textContent = "2:26";
 
   let progressTimer = null;
