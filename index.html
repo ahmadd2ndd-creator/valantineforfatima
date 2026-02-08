@@ -241,9 +241,11 @@
   }
 
   .p3-title {
-    font-size: 56px;
-    margin: 0 0 18px 0;
+    font-size: 72px;
+    margin: 0 0 28px 0;
     opacity: 0.95;
+    font-weight: 700;
+    color: #b2456b; /* wine pink */
   }
   .p3-subtitle {
     font-size: 34px;
@@ -253,76 +255,50 @@
 
   .gift-row {
     display: flex;
-    gap: 34px;
+    gap: 56px;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
   }
 
-  /* ✅ UPDATED: gifts are ONLY the image (no white box) */
   .gift-box {
     background: transparent;
-    border: none;
+    border: 0;
     box-shadow: none;
     width: auto;
     height: auto;
     border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
     user-select: none;
     position: relative;
     overflow: visible;
     transform: translateZ(0);
-    animation: none;
-  }
-
-  .gift-img {
-    width: 170px;
-    height: 170px;
-    object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 16px 26px rgba(0,0,0,0.18));
-    transform: translateZ(0);
-  }
-
-  /* ✅ Bounce when opened (clicked) */
-  .gift-box.bounce .gift-img {
-    animation: giftBounce 0.65s ease;
-  }
-
-  @keyframes giftBounce {
-    0%   { transform: scale(1) translateY(0); }
-    30%  { transform: scale(1.06) translateY(-8px); }
-    55%  { transform: scale(0.98) translateY(2px); }
-    75%  { transform: scale(1.02) translateY(-3px); }
-    100% { transform: scale(1) translateY(0); }
+    animation: giftIdle 2.6s ease-in-out infinite;
   }
 
   @keyframes giftIdle {
     0%,100% { transform: translateY(0); }
-    50%     { transform: translateY(-6px); }
+    50%     { transform: translateY(-8px); }
   }
 
-  .gift-emoji {
-    font-size: 70px;
-    line-height: 1;
-  }
-  .gift-label {
-    font-size: 28px;
-    margin-top: 10px;
-    opacity: 0.9;
-  }
-
-  .gift-box::before {
-    content: "";
-    position: absolute;
-    inset: -40px;
-    background:
-      radial-gradient(circle at 30% 30%, rgba(255,77,109,0.20), transparent 45%),
-      radial-gradient(circle at 70% 70%, rgba(255,157,187,0.22), transparent 50%);
+  .gift-img {
+    width: 168px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 16px 26px rgba(0,0,0,0.14));
     pointer-events: none;
-    display: none;
+  }
+
+  @keyframes giftOpenBounce {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(1.13); }
+    60%  { transform: scale(0.96); }
+    80%  { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  .open-bounce {
+    animation: giftOpenBounce 0.55s ease forwards;
   }
 
   /* Gift pages */
@@ -522,8 +498,7 @@
 <!-- PAGE 3 -->
 <div id="page3" class="page">
   <div class="fade-up">
-    <div class="p3-title">I got you a few little surprises…</div>
-    <div class="p3-subtitle">Pick any gift 🎁</div>
+    <div class="p3-title">I got you a little surprises…</div>
   </div>
 
   <div class="gift-row fade-up delay-1">
@@ -758,22 +733,34 @@ document.addEventListener("DOMContentLoaded", () => {
     giftPageEl.style.display = "none";
   }
 
-  /* ✅ Bounce on click, then open */
-  function bounceThenOpen(giftBoxEl, giftPageEl, afterOpenFn) {
-    giftBoxEl.classList.remove("bounce");
+  function bounceAndOpen(giftBoxEl, giftPageEl, alsoStartSong) {
+    giftBoxEl.classList.remove("open-bounce");
     void giftBoxEl.offsetWidth;
-    giftBoxEl.classList.add("bounce");
+    giftBoxEl.classList.add("open-bounce");
 
     setTimeout(() => {
-      giftBoxEl.classList.remove("bounce");
       openGift(giftPageEl);
-      if (afterOpenFn) afterOpenFn();
-    }, 260);
+      if (alsoStartSong) startSong();
+    }, 160);
   }
 
-  document.getElementById("gift1").onclick = (e) => { bounceThenOpen(e.currentTarget, gift1Page, startSong); };
-  document.getElementById("gift2").onclick = (e) => { bounceThenOpen(e.currentTarget, gift2Page); };
-  document.getElementById("gift3").onclick = (e) => { bounceThenOpen(e.currentTarget, gift3Page); };
+  const gift1El = document.getElementById("gift1");
+  const gift2El = document.getElementById("gift2");
+  const gift3El = document.getElementById("gift3");
+
+  gift1El.addEventListener("animationend", (e) => {
+    if (e.animationName === "giftOpenBounce") gift1El.classList.remove("open-bounce");
+  });
+  gift2El.addEventListener("animationend", (e) => {
+    if (e.animationName === "giftOpenBounce") gift2El.classList.remove("open-bounce");
+  });
+  gift3El.addEventListener("animationend", (e) => {
+    if (e.animationName === "giftOpenBounce") gift3El.classList.remove("open-bounce");
+  });
+
+  gift1El.onclick = () => bounceAndOpen(gift1El, gift1Page, true);
+  gift2El.onclick = () => bounceAndOpen(gift2El, gift2Page, false);
+  gift3El.onclick = () => bounceAndOpen(gift3El, gift3Page, false);
 
   document.getElementById("backFromGift1").onclick = () => closeGift(gift1Page);
   document.getElementById("backFromGift2").onclick = () => closeGift(gift2Page);
