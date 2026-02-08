@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
-  /* ✅ FIX: prevent white flash by giving HTML the same background */
+  /* ✅ FIX: prevent white flash by giving HTML the same background (PAGE 1 default) */
   html {
     height: 100%;
-    background: linear-gradient(to bottom, #FFD6E8 0%, #FFC1D9 100%);
+    background: linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%);
   }
 
   body {
@@ -18,17 +18,18 @@
     height: 100%;
     font-family: 'Dancing Script', cursive;
 
-    /* ✅ PAGE 1 background */
-    background: linear-gradient(to bottom, #FFD6E8 0%, #FFC1D9 100%);
+    /* ✅ PAGE 1 default gradient */
+    background: linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%);
+
+    /* ✅ IMPORTANT TIP */
+    background-blend-mode: soft-light;
 
     overflow: hidden;
     text-align: center;
-
-    /* ✅ PAGE 1 text */
-    color: #E75480;
+    color: #E86A8D; /* ✅ PAGE 1 text */
   }
 
-  /* HEARTS LAYER (so we can hide on page 2) */
+  /* HEARTS LAYER (behind content, above background) */
   #heartsLayer {
     position: fixed;
     inset: 0;
@@ -75,22 +76,11 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    z-index: 2;
+    z-index: 2; /* ✅ above hearts */
+    background: transparent; /* ✅ keep transparent so hearts show on all pages */
   }
 
   #page1 { display: flex; }
-
-  /* ✅ PAGE 2 background + text */
-  #page2 {
-    background: linear-gradient(to bottom, #FFE5B4 0%, #FFB7C5 100%);
-    color: #D6336C;
-  }
-
-  /* ✅ PAGE 3 background + text */
-  #page3 {
-    background: linear-gradient(to bottom, #F3D1F4 0%, #FFD1DC 100%);
-    color: #8E4A7C;
-  }
 
   /* TITLE */
   h1 {
@@ -173,13 +163,9 @@
     margin-top: 10px;
   }
 
-  /* TEXT MASK */
+  /* ✅ IMPORTANT TIP for text (applies everywhere) */
   h1, h2, .love-line, .big-text, .small-text, .p3-title, .p3-subtitle {
-    text-shadow:
-      -1px -1px 0 #ffd6e7,
-       1px -1px 0 #ffd6e7,
-      -1px  1px 0 #ffd6e7,
-       1px  1px 0 #ffd6e7;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
 
   /* ✅ TRANSITION UTILS */
@@ -239,7 +225,7 @@
     cursor: pointer;
     z-index: 5;
 
-    display: none;          /* ✅ prevents invisible click blocking */
+    display: none;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.8s ease;
@@ -250,12 +236,15 @@
     pointer-events: auto;
   }
 
+  /* ✅ PAGE 3 title */
+  #page3 { }
+
   .p3-title {
     font-size: 72px;
     margin: 0 0 28px 0;
     opacity: 0.95;
     font-weight: 700;
-    color: #8E4A7C; /* ✅ PAGE 3 text color */
+    color: #91507F; /* ✅ PAGE 3 text */
   }
   .p3-subtitle {
     font-size: 34px;
@@ -319,12 +308,12 @@
     z-index: 6;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(to bottom, #ff9fbc 0%, #ffb9d0 45%, #ffe9f2 100%);
+    background: linear-gradient(to bottom, #F6DCF7 0%, #FFE0EA 100%); /* ✅ PAGE 3 gradient */
     align-items: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    color: #ff2f68;
+    color: #91507F; /* ✅ PAGE 3 text */
   }
 
   .backBtn {
@@ -580,8 +569,51 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* HEARTS */
-  let heartColors = ["#FF8FB1", "#FFB3C6"]; /* ✅ PAGE 1 hearts */
+  /* ✅ PAGE THEMES */
+  const THEMES = {
+    page1: {
+      bg: "linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%)",
+      text: "#E86A8D",
+      hearts: ["#FFA3BE", "#FFD1DD"]
+    },
+    page2: {
+      bg: "linear-gradient(to bottom, #FFE9C9 0%, #FFC7D6 100%)",
+      text: "#D94A76",
+      hearts: ["#FF5F7E", "#FF88A2"]
+    },
+    page3: {
+      bg: "linear-gradient(to bottom, #F6DCF7 0%, #FFE0EA 100%)",
+      text: "#91507F",
+      hearts: ["#D8A3C8", "#F6B8CF"]
+    }
+  };
+
+  function applyTheme(key) {
+    const t = THEMES[key];
+    if (!t) return;
+
+    document.documentElement.style.background = t.bg;
+    document.body.style.background = t.bg;
+    document.body.style.color = t.text;
+
+    // page 3 title was explicitly wine/purple-ish: keep synced to page 3 text color
+    const p3Title = document.querySelector(".p3-title");
+    if (p3Title) p3Title.style.color = t.text;
+
+    // gift pages background + text should match page3 theme
+    const giftPages = document.querySelectorAll(".gift-page");
+    giftPages.forEach(gp => {
+      gp.style.background = t.bg;
+      gp.style.color = t.text;
+    });
+
+    // update hearts palette
+    heartColors = t.hearts;
+  }
+
+  /* HEARTS (palette changes per page) */
+  let heartColors = THEMES.page1.hearts;
+
   let activeHearts = 0;
   const MIN_HEARTS = 35;
   const MAX_HEARTS = 55;
@@ -700,15 +732,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
+  /* ✅ Apply initial theme (page1) */
+  applyTheme("page1");
+
   /* YES BUTTON (page1 -> page2) */
   document.getElementById("yesBtn").onclick = () => {
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
     const moreBtn = document.getElementById("moreBtn");
 
-    /* ✅ PAGE 2 hearts */
-    heartColors = ["#FF4D6D", "#FF6F91"];
-
+    applyTheme("page2");
     zoomFadeToPage(page1, page2);
 
     // show "One more thing..." after 5s on page2
@@ -726,13 +759,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     moreBtn.classList.remove("show");
 
-    /* ✅ PAGE 3 hearts */
-    heartColors = ["#D291BC", "#F4A6C1"];
-
-    /* ✅ Page 3 html/body background for transition (prevents flash) */
-    document.documentElement.style.background = "linear-gradient(to bottom, #F3D1F4 0%, #FFD1DC 100%)";
-    document.body.style.background = "linear-gradient(to bottom, #F3D1F4 0%, #FFD1DC 100%)";
-
+    applyTheme("page3");
     curtainLeftToPage(page2, page3);
   };
 
