@@ -21,45 +21,15 @@
     /* ✅ PAGE 1 default gradient */
     background: linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%);
 
+    /* ✅ IMPORTANT TIP */
+    background-blend-mode: soft-light;
+
     overflow: hidden;
     text-align: center;
     color: #E86A8D; /* ✅ PAGE 1 text */
-
-    position: relative; /* ✅ ADDED (needed for overlay layers) */
   }
 
-  /* ✅ ADDED (STEP 2): SOFT AI-LIKE OVERLAY + VERY LIGHT VIGNETTE */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-
-    /* soft haze like AI render */
-    background: rgba(255, 255, 255, 0.18);
-
-    /* blend gently with background */
-    mix-blend-mode: soft-light;
-  }
-
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-
-    /* subtle vignette for “dreamy” softness */
-    background: radial-gradient(circle at center,
-      rgba(255,255,255,0.00) 0%,
-      rgba(0,0,0,0.05) 85%,
-      rgba(0,0,0,0.08) 100%
-    );
-    opacity: 0.22;
-  }
-
-  /* HEARTS LAYER (behind content, above background/overlay) */
+  /* HEARTS LAYER (behind content, above background) */
   #heartsLayer {
     position: fixed;
     inset: 0;
@@ -75,17 +45,13 @@
     opacity: 0;
     z-index: 1;
     pointer-events: none;
-
-    /* ✅ ADDED (STEP 4): soften edges a bit */
-    filter: blur(0.2px);
   }
 
-  /* ✅ UPDATED (STEP 4): LOWER HEART BRIGHTNESS/OPACITY to match AI */
   @keyframes floatFade {
-    0%   { transform: translateY(0);       opacity: 0; }
-    15%  { opacity: 0.55; }  /* was 0.8 */
-    80%  { opacity: 0.35; }  /* was 0.6 */
-    100% { transform: translateY(-120vh);  opacity: 0; }
+    0% { transform: translateY(0); opacity: 0; }
+    15% { opacity: 0.8; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-120vh); opacity: 0; }
   }
 
   /* FADE-UP (existing) */
@@ -111,10 +77,7 @@
     align-items: center;
     position: relative;
     z-index: 2; /* ✅ above hearts */
-
-    /* ✅ ADDED (STEP 3): background softening but ONLY on page container
-       (won’t affect fixed overlays and won’t darken your photos weirdly) */
-    filter: saturate(0.94) brightness(1.03);
+    background: transparent; /* ✅ keep transparent so hearts show on all pages */
   }
 
   #page1 { display: flex; }
@@ -274,6 +237,8 @@
   }
 
   /* ✅ PAGE 3 title */
+  #page3 { }
+
   .p3-title {
     font-size: 72px;
     margin: 0 0 28px 0;
@@ -343,12 +308,12 @@
     z-index: 6;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(to bottom, #F6DCF7 0%, #FFE0EA 100%);
+    background: linear-gradient(to bottom, #F6DCF7 0%, #FFE0EA 100%); /* ✅ PAGE 3 gradient */
     align-items: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    color: #91507F;
+    color: #91507F; /* ✅ PAGE 3 text */
   }
 
   .backBtn {
@@ -630,7 +595,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const MIN_HEARTS = 35;
   const MAX_HEARTS = 55;
   const WARM_START_MS = 2000;
-  let startTime = Date.now();
+  let startTime = Date.now(); /* ✅ CHANGED: was const */
   const heartsLayer = document.getElementById("heartsLayer");
 
   function applyTheme(key) {
@@ -694,6 +659,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
+  function showHearts(show) {
+    heartsLayer.style.display = show ? "block" : "none";
+  }
+
   /* NO BUTTON */
   const noBtn = document.getElementById("noBtn");
   const texts = ["Are you sure?", "Try again", "Nice try", "No escape", "Nah bossss", "Wait really...?"];
@@ -729,14 +698,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       fromEl.style.display = "none";
+
       fromEl.classList.remove("transitioning", "zoomFade-out");
       toEl.classList.remove("transitioning", "zoomFade-in");
     }, 1300);
   }
 
-  /* ✅ Page 2 → Page 3: Curtain reveal */
+  /* ✅ Page 2 → Page 3: Curtain reveal (whole page slides LEFT, slightly darker only while sliding) */
   function curtainLeftToPage(fromEl, toEl) {
     toEl.style.display = "flex";
+
     toEl.style.zIndex = "1";
     fromEl.style.zIndex = "2";
 
@@ -748,8 +719,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       fromEl.style.display = "none";
+
       fromEl.classList.remove("transitioning", "curtain-left-out");
       toEl.classList.remove("transitioning", "curtain-reveal-in");
+
       fromEl.style.zIndex = "";
       toEl.style.zIndex = "";
     }, 3000);
@@ -780,6 +753,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const moreBtn = document.getElementById("moreBtn");
 
     moreBtn.classList.remove("show");
+
     applyTheme("page3");
     curtainLeftToPage(page2, page3);
   };
@@ -831,7 +805,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("backFromGift2").onclick = () => closeGift(gift2Page);
   document.getElementById("backFromGift3").onclick = () => closeGift(gift3Page);
 
-  /* Gift 1 song controls */
+  /* Gift 1 song controls (0:18 -> 2:26 + fade out) */
   const song = document.getElementById("giftSong");
   const playPauseBtn = document.getElementById("playPauseBtn");
   const progressFill = document.getElementById("progressFill");
