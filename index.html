@@ -595,7 +595,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const MIN_HEARTS = 35;
   const MAX_HEARTS = 55;
   const WARM_START_MS = 2000;
-  const startTime = Date.now();
+  let startTime = Date.now(); /* ✅ CHANGED: was const */
   const heartsLayer = document.getElementById("heartsLayer");
 
   function applyTheme(key) {
@@ -615,10 +615,10 @@ document.addEventListener("DOMContentLoaded", () => {
       gp.style.color = t.text;
     });
 
-    /* ✅ FIX: force new heart colors to show by clearing old hearts */
+    /* ✅ HARD RESET: remove all existing hearts + restart timing */
     heartsLayer.innerHTML = "";
     activeHearts = 0;
-
+    startTime = Date.now();
     heartColors = t.hearts;
   }
 
