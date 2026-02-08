@@ -30,7 +30,7 @@
   #heartsLayer {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 1;
     pointer-events: none;
   }
 
@@ -40,7 +40,7 @@
     bottom: -40px;
     animation: floatFade linear infinite;
     opacity: 0;
-    z-index: 10;
+    z-index: 1;
     pointer-events: none;
   }
 
@@ -238,7 +238,6 @@
 
   /* ✅ PAGE 3 background */
   #page3 {
-    background: linear-gradient(to bottom, #ff9fbc 0%, #ffb9d0 45%, #ffe9f2 100%);
   }
 
   .p3-title {
@@ -718,6 +717,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const moreBtn = document.getElementById("moreBtn");
 
     moreBtn.classList.remove("show");
+
+    document.documentElement.style.background = "linear-gradient(to bottom, #ff9fbc 0%, #ffb9d0 45%, #ffe9f2 100%)";
+    document.body.style.background = "linear-gradient(to bottom, #ff9fbc 0%, #ffb9d0 45%, #ffe9f2 100%)";
 
     curtainLeftToPage(page2, page3);
   };
