@@ -10,7 +10,7 @@
   /* ✅ FIX: prevent white flash by giving HTML the same background */
   html {
     height: 100%;
-    background: linear-gradient(to bottom, #ffb6d1 0%, #ffd0e3 45%, #ffe9f2 100%);
+    background: linear-gradient(to bottom, #FFD6E8 0%, #FFC1D9 100%);
   }
 
   body {
@@ -18,12 +18,14 @@
     height: 100%;
     font-family: 'Dancing Script', cursive;
 
-    /* ✅ SAME COLORS, OPPOSITE GRADIENT (page 1 + 2 stay the same) */
-    background: linear-gradient(to bottom, #ffb6d1 0%, #ffd0e3 45%, #ffe9f2 100%);
+    /* ✅ PAGE 1 background */
+    background: linear-gradient(to bottom, #FFD6E8 0%, #FFC1D9 100%);
 
     overflow: hidden;
     text-align: center;
-    color: #ff2f68;
+
+    /* ✅ PAGE 1 text */
+    color: #E75480;
   }
 
   /* HEARTS LAYER (so we can hide on page 2) */
@@ -77,6 +79,18 @@
   }
 
   #page1 { display: flex; }
+
+  /* ✅ PAGE 2 background + text */
+  #page2 {
+    background: linear-gradient(to bottom, #FFE5B4 0%, #FFB7C5 100%);
+    color: #D6336C;
+  }
+
+  /* ✅ PAGE 3 background + text */
+  #page3 {
+    background: linear-gradient(to bottom, #F3D1F4 0%, #FFD1DC 100%);
+    color: #8E4A7C;
+  }
 
   /* TITLE */
   h1 {
@@ -236,16 +250,12 @@
     pointer-events: auto;
   }
 
-  /* ✅ PAGE 3 background */
-  #page3 {
-  }
-
   .p3-title {
     font-size: 72px;
     margin: 0 0 28px 0;
     opacity: 0.95;
     font-weight: 700;
-    color: #b2456b; /* wine pink */
+    color: #8E4A7C; /* ✅ PAGE 3 text color */
   }
   .p3-subtitle {
     font-size: 34px;
@@ -571,7 +581,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* HEARTS */
-  const heartColors = ["#ff9dbb", "#ff4d6d"];
+  let heartColors = ["#FF8FB1", "#FFB3C6"]; /* ✅ PAGE 1 hearts */
   let activeHearts = 0;
   const MIN_HEARTS = 35;
   const MAX_HEARTS = 55;
@@ -696,6 +706,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const page2 = document.getElementById("page2");
     const moreBtn = document.getElementById("moreBtn");
 
+    /* ✅ PAGE 2 hearts */
+    heartColors = ["#FF4D6D", "#FF6F91"];
+
     zoomFadeToPage(page1, page2);
 
     // show "One more thing..." after 5s on page2
@@ -713,8 +726,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     moreBtn.classList.remove("show");
 
-    document.documentElement.style.background = "linear-gradient(to bottom, #ff9fbc 0%, #ffb9d0 45%, #ffe9f2 100%)";
-    document.body.style.background = "linear-gradient(to bottom, #ff9fbc 0%, #ffb9d0 45%, #ffe9f2 100%)";
+    /* ✅ PAGE 3 hearts */
+    heartColors = ["#D291BC", "#F4A6C1"];
+
+    /* ✅ Page 3 html/body background for transition (prevents flash) */
+    document.documentElement.style.background = "linear-gradient(to bottom, #F3D1F4 0%, #FFD1DC 100%)";
+    document.body.style.background = "linear-gradient(to bottom, #F3D1F4 0%, #FFD1DC 100%)";
 
     curtainLeftToPage(page2, page3);
   };
