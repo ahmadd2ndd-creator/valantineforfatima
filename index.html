@@ -487,20 +487,20 @@
   /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* ✅✅✅ GIFT 2 — ACTUAL VISIBLE CHANGES (higher + much closer + text line) */
+  /* ✅✅✅ GIFT 2 — FIXED (closer, smaller, higher, no overlap + line visible) */
   .sticker-wrap {
     display: flex;
-    gap: 0px;
+    gap: 18px;                 /* ✅ close, but no overlap */
     align-items: center;
     justify-content: center;
 
-    /* higher on page */
-    margin-top: -40px;
-    transform: translateY(-110px);
+    /* ✅ higher on page (clean) */
+    margin-top: -10px;
+    transform: translateY(-70px);
   }
 
   .sticker {
-    width: 520px;
+    width: 380px;              /* ✅ both smaller */
     height: auto;
     filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
@@ -508,30 +508,28 @@
     outline-offset: 0;
   }
 
-  /* flowers bigger + tilt left */
+  /* ✅ flowers slightly bigger + tilt left, but NO crazy translateX */
   .sticker.flowers {
-    width: 620px;
-    transform: rotate(-10deg) scale(0.92) translateX(-140px);
+    width: 430px;
+    transform: rotate(-10deg) scale(0.92) translateX(-18px);
     animation: flowersIn 0.6s ease forwards;
   }
 
-  /* panda comes in too */
   .sticker.panda {
-    transform: scale(0.92) translateX(140px);
+    transform: scale(0.92) translateX(18px);
     animation: pandaIn 0.6s ease forwards;
   }
 
-  /* FINAL POSITION STAYS CLOSE (NOT 0) */
   @keyframes flowersIn {
-    to { transform: rotate(-10deg) scale(1) translateX(-20px); opacity: 1; }
+    to { transform: rotate(-10deg) scale(1) translateX(0); opacity: 1; }
   }
   @keyframes pandaIn {
-    to { transform: scale(1) translateX(20px); opacity: 1; }
+    to { transform: scale(1) translateX(0); opacity: 1; }
   }
 
-  /* line under panda + flowers */
+  /* ✅ line under panda + flowers (VISIBLE) */
   .gift2-line {
-    margin-top: -65px; /* sits under the stickers */
+    margin-top: -40px;         /* ✅ just below the stickers */
     font-size: 40px;
     color: #91507F;
     opacity: 0.96;
@@ -665,7 +663,7 @@
   </div>
 
   <!-- ✅ REQUIRED LINE -->
-  <div class="gift2-line">Got this for you&lt;3</div>
+  <div class="gift2-line">I got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
 </div>
