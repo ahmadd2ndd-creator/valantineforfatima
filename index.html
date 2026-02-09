@@ -454,7 +454,6 @@
 
   .timeRow { display: none; }
 
-  /* ✅✅✅ GIFT 2 */
   .gift2-stack{
     display:flex;
     flex-direction:column;
@@ -481,33 +480,34 @@
     outline-offset: 0;
   }
 
-  /* ✅ CHANGE 1: only flowers go a bit higher */
   .sticker.flowers {
     width: 627px;
     transform: rotate(-10deg) scale(0.92) translateY(-40px);
     animation: flowersIn 0.6s ease forwards;
   }
 
+  /* ✅ CHANGE: panda moved more left */
   .sticker.panda {
-    transform: scale(0.92);
+    transform: scale(0.92) translateX(-55px);
     animation: pandaIn 0.6s ease forwards;
   }
 
   @keyframes flowersIn {
     to { transform: rotate(-10deg) scale(1) translateY(-40px); opacity: 1; }
   }
+
+  /* ✅ CHANGE: keep panda left after animation */
   @keyframes pandaIn {
-    to { transform: scale(1); opacity: 1; }
+    to { transform: scale(1) translateX(-55px); opacity: 1; }
   }
 
-  /* ✅ CHANGE 2: text 40% bigger */
   .gift2-line {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
     bottom: 92px;
     z-index: 8;
-    font-size: 56px; /* 40% bigger than 40px */
+    font-size: 56px;
     color: #91507F;
     opacity: 0.96;
     text-shadow: 0 1px 2px rgba(0,0,0,0.08);
@@ -539,6 +539,13 @@
     margin: 0;
     color: #6B3F55;
     opacity: 0.92;
+  }
+
+  /* ✅ CHANGE: last line separate + centered */
+  .letter-signoff{
+    display: block;
+    text-align: center;
+    margin-top: 14px;
   }
 </style>
 </head>
@@ -647,7 +654,8 @@
     <h3>For you ❤️</h3>
     <p>
       Loving you feels quiet and beautiful, like a soft moment the world pauses for. In your presence, my heart learns how to be gentle, how to feel safe, how to hope. I carry you in my thoughts, in my smiles, and in the calm that settles over me—and in that stillness, I understand that loving you is something my heart chooses, again and again.
-      Always yours, no matter what happens.
+      <br><br>
+      <span class="letter-signoff">Always yours, no matter what happens.</span>
     </p>
   </div>
 
