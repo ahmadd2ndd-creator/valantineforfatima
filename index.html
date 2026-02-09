@@ -487,51 +487,59 @@
   /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* ===================== ✅ GIFT 2 CHANGES (ONLY) ===================== */
+  /* ===========================
+     ✅ GIFT 2 — UPDATED (closer + higher + line)
+     =========================== */
+  #gift2Page {
+    justify-content: flex-start;
+    padding-top: 120px; /* higher on screen */
+  }
+
   .sticker-wrap {
     display: flex;
-    gap: 0px;                    /* ✅ closer */
+    gap: 0px;                 /* closer */
     align-items: center;
     justify-content: center;
-    margin-top: -10px;
-    transform: translateY(-90px);/* ✅ higher on page */
+    margin-top: 0px;
+    transform: translateY(-90px); /* higher */
   }
 
   .sticker {
-    width: 520px;
     height: auto;
     filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
+
     outline: none;
     outline-offset: 0;
   }
 
   .sticker.flowers {
-    width: 660px; /* ✅ flowers a little bigger */
-    transform: rotate(-10deg) scale(0.92) translateX(25px);
-    animation: flowersIn 0.55s ease forwards;
+    width: 640px; /* slightly bigger flowers */
+    transform: rotate(-10deg) scale(0.92) translateX(80px); /* push towards panda */
+    animation: flowersIn 0.60s ease forwards;
   }
 
   .sticker.panda {
-    transform: scale(0.92) translateX(-25px);
-    animation: pandaIn 0.55s ease forwards;
+    width: 520px; /* keep panda size */
+    transform: scale(0.92) translateX(-80px); /* push towards flowers */
+    animation: pandaIn 0.60s ease forwards;
   }
 
   @keyframes flowersIn {
-    to { transform: rotate(-10deg) scale(1) translateX(0); opacity: 1; }
+    to { transform: rotate(-10deg) scale(1) translateX(40px); opacity: 1; }
   }
 
   @keyframes pandaIn {
-    to { transform: scale(1) translateX(0); opacity: 1; }
+    to { transform: scale(1) translateX(-40px); opacity: 1; }
   }
 
   .gift2-line {
-    margin-top: -55px;        /* ✅ sits just under stickers */
+    margin-top: -70px; /* right below images */
     font-size: 40px;
-    color: #7F2E55;           /* ✅ chosen text color */
+    color: #7F2E55; /* ✅ requested: best text color for gift 2 */
     opacity: 0.95;
   }
-  /* ===================== ✅ END GIFT 2 CHANGES ===================== */
+  /* =========================== */
 
   /* ✅ ✅ ✅ GIFT 3 LETTER — UPDATED AS REQUESTED */
   .letter {
@@ -555,9 +563,12 @@
 
   .letter h3 {
     margin: 0 0 26px 0; /* ✅ more space between title & text */
+
+    /* 4️⃣ title contrast */
     font-size: 48px;
     font-weight: 600;
     color: #7F2E55;
+
     text-align: center;
   }
 
@@ -565,7 +576,10 @@
     font-size: 28px;
     line-height: 1.55;
     margin: 0;
+
+    /* 4️⃣ body contrast */
     color: #6B3F55;
+
     opacity: 0.92;
   }
 </style>
@@ -614,6 +628,7 @@
 <!-- PAGE 3 -->
 <div id="page3" class="page">
   <div class="fade-up">
+    <!-- ✅ CHANGED TEXT -->
     <div class="p3-title">I got you a few little surprises...</div>
   </div>
 
@@ -668,6 +683,7 @@
     <img class="sticker panda" src="panda.png" alt="">
   </div>
 
+  <!-- ✅ NEW LINE BELOW -->
   <div class="gift2-line">Got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
