@@ -487,36 +487,33 @@
   /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* Gift 2 stickers */
+  /* ===================== ✅ GIFT 2 CHANGES (ONLY) ===================== */
   .sticker-wrap {
     display: flex;
-    gap: 12px;                   /* ✅ closer final spacing */
+    gap: 0px;                    /* ✅ closer */
     align-items: center;
     justify-content: center;
-    margin-top: -10px;           /* ✅ higher */
-    transform: translateY(-30px);/* ✅ higher */
+    margin-top: -10px;
+    transform: translateY(-90px);/* ✅ higher on page */
   }
 
   .sticker {
-    width: 520px; /* panda stays same size */
+    width: 520px;
     height: auto;
     filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
-
     outline: none;
     outline-offset: 0;
   }
 
-  /* ✅ flowers: a little more bigger + tilt + come closer during animation */
   .sticker.flowers {
-    width: 620px; /* ✅ flowers bigger than panda */
-    transform: rotate(-10deg) scale(0.92) translateX(-70px);
+    width: 660px; /* ✅ flowers a little bigger */
+    transform: rotate(-10deg) scale(0.92) translateX(25px);
     animation: flowersIn 0.55s ease forwards;
   }
 
-  /* ✅ panda: comes closer during animation too (final 0) */
   .sticker.panda {
-    transform: scale(0.92) translateX(70px);
+    transform: scale(0.92) translateX(-25px);
     animation: pandaIn 0.55s ease forwards;
   }
 
@@ -527,6 +524,14 @@
   @keyframes pandaIn {
     to { transform: scale(1) translateX(0); opacity: 1; }
   }
+
+  .gift2-line {
+    margin-top: -55px;        /* ✅ sits just under stickers */
+    font-size: 40px;
+    color: #7F2E55;           /* ✅ chosen text color */
+    opacity: 0.95;
+  }
+  /* ===================== ✅ END GIFT 2 CHANGES ===================== */
 
   /* ✅ ✅ ✅ GIFT 3 LETTER — UPDATED AS REQUESTED */
   .letter {
@@ -550,12 +555,9 @@
 
   .letter h3 {
     margin: 0 0 26px 0; /* ✅ more space between title & text */
-
-    /* 4️⃣ title contrast */
     font-size: 48px;
     font-weight: 600;
     color: #7F2E55;
-
     text-align: center;
   }
 
@@ -563,10 +565,7 @@
     font-size: 28px;
     line-height: 1.55;
     margin: 0;
-
-    /* 4️⃣ body contrast */
     color: #6B3F55;
-
     opacity: 0.92;
   }
 </style>
@@ -615,7 +614,7 @@
 <!-- PAGE 3 -->
 <div id="page3" class="page">
   <div class="fade-up">
-    <div class="p3-title">I got you a little surprises…</div>
+    <div class="p3-title">I got you a few little surprises...</div>
   </div>
 
   <div class="gift-row fade-up delay-1">
@@ -668,6 +667,8 @@
     <img class="sticker flowers" src="flowers.png" alt="">
     <img class="sticker panda" src="panda.png" alt="">
   </div>
+
+  <div class="gift2-line">Got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
 </div>
