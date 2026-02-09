@@ -316,6 +316,12 @@
     color: #91507F; /* ✅ PAGE 3 text */
   }
 
+  /* ✅ FIX: Gift 1 page background should be soft cream/white like reference */
+  #gift1Page {
+    background: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.95) 0%, rgba(255,248,252,0.92) 45%, rgba(255,244,249,0.88) 100%);
+    color: rgba(25,18,22,0.78);
+  }
+
   .backBtn {
     position: fixed;
     left: 50%;
@@ -331,11 +337,11 @@
     z-index: 7;
   }
 
-  /* ✅ ✅ ✅ GIFT 1 CARD — MATCHING YOUR 2ND PIC (scrapbook widget) */
+  /* ✅ ✅ ✅ GIFT 1 CARD — UPDATED PER YOUR NOTES */
   .spotify-card {
     width: 320px;
     border-radius: 22px;
-    background: #FFF3E6; /* cream */
+    background: #EEE7EB; /* ✅ requested card color */
     box-shadow: 0 22px 50px rgba(0,0,0,0.18);
     padding: 16px 16px 14px 16px;
     position: relative;
@@ -348,9 +354,9 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 20% 25%, rgba(0,0,0,0.03), transparent 58%),
-      radial-gradient(circle at 80% 80%, rgba(0,0,0,0.025), transparent 60%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23E86A8D' stroke-opacity='0.18' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M26 36c0-5 6-8 10-3 4-5 10-2 10 3 0 8-10 13-10 13S26 44 26 36Z'/%3E%3Cpath d='M98 26c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M98 36c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M94 31c8 0 16 0 24 0'/%3E%3Cpath d='M46 96c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M46 106c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M42 101c8 0 16 0 24 0'/%3E%3C/g%3E%3C/svg%3E");
+      radial-gradient(circle at 20% 25%, rgba(0,0,0,0.028), transparent 58%),
+      radial-gradient(circle at 80% 80%, rgba(0,0,0,0.022), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%2391507F' stroke-opacity='0.14' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M26 36c0-5 6-8 10-3 4-5 10-2 10 3 0 8-10 13-10 13S26 44 26 36Z'/%3E%3Cpath d='M98 26c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M98 36c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M94 31c8 0 16 0 24 0'/%3E%3Cpath d='M46 96c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M46 106c3-3 7-3 10 0 3 3 3 7 0 10'/%3E%3Cpath d='M42 101c8 0 16 0 24 0'/%3E%3C/g%3E%3C/svg%3E");
     background-size: auto, auto, 140px 140px;
     background-repeat: no-repeat, no-repeat, repeat;
     opacity: 0.55;
@@ -361,7 +367,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.12);
     pointer-events: none;
   }
 
@@ -374,12 +380,13 @@
     gap: 12px;
   }
 
-  /* top album cover looks like the screenshot: rounded rectangle */
+  /* ✅ FIX: show the cover properly (no weird crop) */
   .cover {
     width: 100%;
     height: 170px;
     border-radius: 16px;
-    object-fit: cover;
+    object-fit: contain;         /* ✅ shows full image */
+    background: rgba(0,0,0,0.06);/* subtle backing so empty space looks clean */
     box-shadow: 0 14px 30px rgba(0,0,0,0.14);
   }
 
@@ -390,7 +397,7 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 26px;
     letter-spacing: 1px;
-    color: rgba(25,18,22,0.75);
+    color: rgba(25,18,22,0.72);
     margin-top: 2px;
     margin-bottom: 2px;
   }
@@ -411,15 +418,16 @@
     overflow: hidden;
   }
 
+  /* ✅ filled line follows the dot (width controlled by JS) */
   .mini-progress .bar > div {
     height: 100%;
     width: 0%;
-    background: rgba(25,18,22,0.28);
+    background: rgba(25,18,22,0.30);
     border-radius: 999px;
     position: relative;
   }
 
-  /* big round knob at start like screenshot */
+  /* ✅ dot at the end of the filled line */
   .mini-progress .bar > div::after {
     content: "";
     position: absolute;
@@ -431,9 +439,8 @@
     background: rgba(25,18,22,0.68);
     border-radius: 50%;
     box-shadow: 0 8px 16px rgba(0,0,0,0.10);
-    opacity: 0;
+    opacity: 1; /* ✅ always visible */
   }
-  .mini-progress .bar > div.knob::after { opacity: 1; }
 
   /* controls: prev / big play circle / next */
   .controls {
@@ -480,19 +487,8 @@
   }
   .iconBtn:active { transform: scale(0.96); }
 
-  /* time row bottom corners like screenshot */
-  .timeRow {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 18px;
-    color: rgba(25,18,22,0.55);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    letter-spacing: 0.5px;
-  }
+  /* ✅ remove the numbers under the card */
+  .spotify-card .timeRow { display: none; }
 
   /* Gift 2 stickers */
   .sticker-wrap {
@@ -707,6 +703,13 @@ document.addEventListener("DOMContentLoaded", () => {
       gp.style.background = t.bg;
       gp.style.color = t.text;
     });
+
+    /* ✅ keep Gift 1 page background independent (soft white/cream like reference) */
+    const gift1Page = document.getElementById("gift1Page");
+    if (gift1Page) {
+      gift1Page.style.background = "radial-gradient(circle at 50% 35%, rgba(255,255,255,0.95) 0%, rgba(255,248,252,0.92) 45%, rgba(255,244,249,0.88) 100%)";
+      gift1Page.style.color = "rgba(25,18,22,0.78)";
+    }
 
     /* ✅ HARD RESET: remove all existing hearts + restart timing */
     heartsLayer.innerHTML = "";
@@ -958,9 +961,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const total = (END_AT - START_AT);
       const pct = Math.min(100, Math.max(0, ((cur - START_AT) / total) * 100));
       progressFill.style.width = pct + "%";
-
-      /* ✅ show knob like your screenshot */
-      progressFill.classList.add("knob");
 
       curTimeEl.textContent = fmtTime(Math.max(0, cur - START_AT));
     }, 120);
