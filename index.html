@@ -454,13 +454,13 @@
 
   .timeRow { display: none; }
 
-  /* ✅✅✅ GIFT 2 (FIXED): panda/flowers no longer pushed up, line is fixed above button */
+  /* ✅✅✅ GIFT 2 */
   .gift2-stack{
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    transform: none; /* ✅ FIX: stop moving panda higher */
+    transform: none;
   }
 
   .sticker-wrap {
@@ -481,9 +481,10 @@
     outline-offset: 0;
   }
 
+  /* ✅ CHANGE 1: only flowers go a bit higher */
   .sticker.flowers {
-    width: 627px; /* ✅ still 1/3 bigger */
-    transform: rotate(-10deg) scale(0.92);
+    width: 627px;
+    transform: rotate(-10deg) scale(0.92) translateY(-40px);
     animation: flowersIn 0.6s ease forwards;
   }
 
@@ -493,19 +494,20 @@
   }
 
   @keyframes flowersIn {
-    to { transform: rotate(-10deg) scale(1); opacity: 1; }
+    to { transform: rotate(-10deg) scale(1) translateY(-40px); opacity: 1; }
   }
   @keyframes pandaIn {
     to { transform: scale(1); opacity: 1; }
   }
 
+  /* ✅ CHANGE 2: text 40% bigger */
   .gift2-line {
-    position: fixed;              /* ✅ FIX: always visible */
+    position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 92px;                 /* ✅ sits ABOVE the Go back button */
-    z-index: 8;                   /* ✅ above the button (7) */
-    font-size: 40px;
+    bottom: 92px;
+    z-index: 8;
+    font-size: 56px; /* 40% bigger than 40px */
     color: #91507F;
     opacity: 0.96;
     text-shadow: 0 1px 2px rgba(0,0,0,0.08);
@@ -635,7 +637,6 @@
     </div>
   </div>
 
-  <!-- ✅ FIX: now ALWAYS visible above button -->
   <div class="gift2-line">I got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
@@ -646,6 +647,7 @@
     <h3>For you ❤️</h3>
     <p>
       Loving you feels quiet and beautiful, like a soft moment the world pauses for. In your presence, my heart learns how to be gentle, how to feel safe, how to hope. I carry you in my thoughts, in my smiles, and in the calm that settles over me—and in that stillness, I understand that loving you is something my heart chooses, again and again.
+      Always yours, no matter what happens.
     </p>
   </div>
 
