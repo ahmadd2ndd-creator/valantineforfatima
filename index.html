@@ -487,24 +487,19 @@
   /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* ===========================
-     ✅ GIFT 2 — UPDATED (closer + higher + line)
-     =========================== */
-  #gift2Page {
-    justify-content: flex-start;
-    padding-top: 120px; /* higher on screen */
-  }
-
+  /* Gift 2 stickers */
+  /* ✅ UPDATED: closer + higher */
   .sticker-wrap {
     display: flex;
-    gap: 0px;                 /* closer */
+    gap: 0px;                    /* ✅ more closer */
     align-items: center;
     justify-content: center;
-    margin-top: 0px;
-    transform: translateY(-90px); /* higher */
+    margin-top: -30px;           /* ✅ higher */
+    transform: translateY(-70px);/* ✅ higher */
   }
 
   .sticker {
+    width: 520px; /* panda stays same size */
     height: auto;
     filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
@@ -513,33 +508,34 @@
     outline-offset: 0;
   }
 
+  /* ✅ UPDATED: move flowers closer */
   .sticker.flowers {
-    width: 640px; /* slightly bigger flowers */
-    transform: rotate(-10deg) scale(0.92) translateX(80px); /* push towards panda */
-    animation: flowersIn 0.60s ease forwards;
+    width: 620px;
+    transform: rotate(-10deg) scale(0.92) translateX(-25px);
+    animation: flowersIn 0.55s ease forwards;
   }
 
+  /* ✅ UPDATED: move panda closer */
   .sticker.panda {
-    width: 520px; /* keep panda size */
-    transform: scale(0.92) translateX(-80px); /* push towards flowers */
-    animation: pandaIn 0.60s ease forwards;
+    transform: scale(0.92) translateX(25px);
+    animation: pandaIn 0.55s ease forwards;
   }
 
   @keyframes flowersIn {
-    to { transform: rotate(-10deg) scale(1) translateX(40px); opacity: 1; }
+    to { transform: rotate(-10deg) scale(1) translateX(0); opacity: 1; }
   }
 
   @keyframes pandaIn {
-    to { transform: scale(1) translateX(-40px); opacity: 1; }
+    to { transform: scale(1) translateX(0); opacity: 1; }
   }
 
+  /* ✅ NEW: Gift 2 line below images */
   .gift2-line {
-    margin-top: -70px; /* right below images */
-    font-size: 40px;
-    color: #7F2E55; /* ✅ requested: best text color for gift 2 */
+    margin-top: -40px;           /* keeps it close under */
+    font-size: 38px;
+    color: #91507F;              /* ✅ suggested text color */
     opacity: 0.95;
   }
-  /* =========================== */
 
   /* ✅ ✅ ✅ GIFT 3 LETTER — UPDATED AS REQUESTED */
   .letter {
@@ -628,7 +624,7 @@
 <!-- PAGE 3 -->
 <div id="page3" class="page">
   <div class="fade-up">
-    <!-- ✅ CHANGED TEXT -->
+    <!-- ✅ CHANGED TEXT ONLY -->
     <div class="p3-title">I got you a few little surprises...</div>
   </div>
 
@@ -683,7 +679,7 @@
     <img class="sticker panda" src="panda.png" alt="">
   </div>
 
-  <!-- ✅ NEW LINE BELOW -->
+  <!-- ✅ NEW LINE BELOW PANDA/FLOWERS -->
   <div class="gift2-line">Got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
