@@ -225,12 +225,12 @@
     cursor: pointer;
     z-index: 5;
 
-    display: block;              /* ✅ changed */
+    display: block;
     opacity: 0;
-    visibility: hidden;          /* ✅ changed */
+    visibility: hidden;
     pointer-events: none;
-    transform: translateY(8px);  /* ✅ changed */
-    transition: opacity 0.9s ease, transform 0.9s ease, visibility 0.9s ease; /* ✅ changed */
+    transform: translateY(8px);
+    transition: opacity 0.9s ease, transform 0.9s ease, visibility 0.9s ease;
   }
   #moreBtn.show {
     opacity: 1;
@@ -490,11 +490,11 @@
   /* Gift 2 stickers */
   .sticker-wrap {
     display: flex;
-    gap: 12px;                  /* ✅ closer final spacing */
+    gap: 12px;                   /* ✅ closer final spacing */
     align-items: center;
     justify-content: center;
-    margin-top: -10px;          /* ✅ higher */
-    transform: translateY(-30px); /* ✅ higher */
+    margin-top: -10px;           /* ✅ higher */
+    transform: translateY(-30px);/* ✅ higher */
   }
 
   .sticker {
@@ -528,27 +528,43 @@
     to { transform: scale(1) translateX(0); opacity: 1; }
   }
 
-  /* Gift 3 letter */
+  /* ✅ ✅ ✅ GIFT 3 LETTER — UPGRADED EXACTLY AS REQUESTED */
   .letter {
     width: min(760px, 90vw);
     border-radius: 28px;
-    background: rgba(255,255,255,0.72);
-    border: 3px solid rgba(255,107,154,0.55);
-    box-shadow: 0 18px 46px rgba(0,0,0,0.18);
-    padding: 26px 26px;
+
+    /* 1️⃣ background */
+    background: #FFF7FA;
+
+    /* 2️⃣ border */
+    border: 2px solid rgba(214, 165, 188, 0.6);
+
+    /* 3️⃣ shadow */
+    box-shadow: 0 26px 70px rgba(180, 120, 150, 0.25);
+
+    /* 6️⃣ inner spacing */
+    padding: 34px 40px;
+
     text-align: left;
   }
 
   .letter h3 {
-    margin: 0 0 10px 0;
-    font-size: 44px;
+    margin: 0 0 18px 0;
+
+    /* 4️⃣ title styling */
+    font-size: 48px;
+    font-weight: 600;
+    color: #8E3E63;
+
     text-align: center;
   }
 
   .letter p {
+    /* 5️⃣ body styling */
     font-size: 28px;
-    line-height: 1.35;
+    line-height: 1.5;
     margin: 0;
+    color: #7B4A63;
     opacity: 0.92;
   }
 </style>
