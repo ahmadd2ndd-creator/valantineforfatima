@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
-  /* ✅ FIX: prevent white flash by giving HTML the same background (PAGE 1 default) */
   html {
     height: 100%;
     background: linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%);
@@ -17,19 +16,13 @@
     margin: 0;
     height: 100%;
     font-family: 'Dancing Script', cursive;
-
-    /* ✅ PAGE 1 default gradient */
     background: linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%);
-
-    /* ✅ IMPORTANT TIP */
     background-blend-mode: soft-light;
-
     overflow: hidden;
     text-align: center;
-    color: #E86A8D; /* ✅ PAGE 1 text */
+    color: #E86A8D;
   }
 
-  /* HEARTS LAYER (behind content, above background) */
   #heartsLayer {
     position: fixed;
     inset: 0;
@@ -37,7 +30,6 @@
     pointer-events: none;
   }
 
-  /* HEARTS */
   .heart {
     position: fixed;
     bottom: -40px;
@@ -54,7 +46,6 @@
     100% { transform: translateY(-120vh); opacity: 0; }
   }
 
-  /* FADE-UP (existing) */
   .fade-up {
     opacity: 0;
     transform: translateY(30px);
@@ -68,7 +59,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* PAGE BASE */
   .page {
     height: 100vh;
     display: none;
@@ -76,20 +66,18 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    z-index: 2; /* ✅ above hearts */
-    background: transparent; /* ✅ keep transparent so hearts show on all pages */
+    z-index: 2;
+    background: transparent;
   }
 
   #page1 { display: flex; }
 
-  /* TITLE */
   h1 {
     font-size: 76px;
     margin-bottom: 28px;
     margin-top: -30px;
   }
 
-  /* BUTTON AREA */
   .buttons {
     display: flex;
     gap: 40px;
@@ -100,7 +88,6 @@
     margin-bottom: 55px;
   }
 
-  /* BASE BUTTON */
   button {
     padding: 18px 42px;
     font-size: 28px;
@@ -111,7 +98,6 @@
     transition: transform 0.4s ease;
   }
 
-  /* YES BUTTON */
   #yesBtn {
     background: #ff2f68;
     color: white;
@@ -122,20 +108,17 @@
   }
   #yesBtn:active, #yesBtn:focus { outline: none; }
 
-  /* NO BUTTON */
   #noBtn {
     background: white;
     margin-left: 180px;
   }
 
-  /* LOVE LINE */
   .love-line {
     font-size: 34px;
     margin-top: 0;
     opacity: 0.85;
   }
 
-  /* PAGE 2 */
   #page2 h2 {
     font-size: 64px;
     margin-bottom: 20px;
@@ -163,12 +146,10 @@
     margin-top: 10px;
   }
 
-  /* ✅ IMPORTANT TIP for text (applies everywhere) */
   h1, h2, .love-line, .big-text, .small-text, .p3-title, .p3-subtitle {
     text-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
 
-  /* ✅ TRANSITION UTILS */
   .transitioning {
     position: fixed;
     inset: 0;
@@ -176,7 +157,6 @@
     height: 100vh;
   }
 
-  /* ✅ Page 1 → Page 2: Soft Zoom + Fade */
   .zoomFade-out {
     animation: zoomFadeOut 1.3s ease forwards;
   }
@@ -193,7 +173,6 @@
     100% { transform: scale(1);    opacity: 1; filter: brightness(1); }
   }
 
-  /* ✅ Page 2 → Page 3: Curtain (single panel slide LEFT) + slightly darker while sliding */
   .curtain-left-out {
     animation: curtainLeftOut 3s cubic-bezier(0.25, 1, 0.35, 1) forwards;
   }
@@ -210,7 +189,6 @@
     100% { opacity: 1; transform: scale(1); }
   }
 
-  /* ✅ Page 2 → Page 3 button (fade-in instead of sudden appear) */
   #moreBtn {
     position: fixed;
     right: 26px;
@@ -239,15 +217,12 @@
     transform: translateY(0);
   }
 
-  /* ✅ PAGE 3 title */
-  #page3 { }
-
   .p3-title {
     font-size: 72px;
     margin: 0 0 28px 0;
     opacity: 0.95;
     font-weight: 700;
-    color: #91507F; /* ✅ PAGE 3 text */
+    color: #91507F;
   }
   .p3-subtitle {
     font-size: 34px;
@@ -303,7 +278,6 @@
     animation: giftOpenBounce 0.55s ease forwards;
   }
 
-  /* Gift pages */
   .gift-page {
     display: none;
     position: fixed;
@@ -311,12 +285,12 @@
     z-index: 6;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(to bottom, #F6DCF7 0%, #FFE0EA 100%); /* ✅ PAGE 3 gradient */
+    background: linear-gradient(to bottom, #F6DCF7 0%, #FFE0EA 100%);
     align-items: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    color: #91507F; /* ✅ PAGE 3 text */
+    color: #91507F;
   }
 
   .backBtn {
@@ -334,7 +308,6 @@
     z-index: 7;
   }
 
-  /* ✅ ✅ ✅ GIFT 1 CARD — POLAROID STYLE (taller), square image, no bottom timing */
   .spotify-card {
     width: 320px;
     border-radius: 22px;
@@ -345,7 +318,6 @@
     overflow: hidden;
   }
 
-  /* subtle paper texture + tiny bows/hearts pattern */
   .spotify-card::before {
     content: "";
     position: absolute;
@@ -377,7 +349,6 @@
     gap: 12px;
   }
 
-  /* ✅ Square image area (1:1) */
   .cover {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -389,7 +360,6 @@
     display: block;
   }
 
-  /* track name */
   .track-name {
     width: 100%;
     text-align: center;
@@ -401,7 +371,6 @@
     margin-bottom: 2px;
   }
 
-  /* progress bar with dot + filled line behind it */
   .mini-progress {
     position: relative;
     z-index: 1;
@@ -439,7 +408,6 @@
     box-shadow: 0 8px 16px rgba(0,0,0,0.10);
   }
 
-  /* controls */
   .controls {
     position: relative;
     z-index: 1;
@@ -484,21 +452,20 @@
   }
   .iconBtn:active { transform: scale(0.96); }
 
-  /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* ✅✅✅ GIFT 2 — FIXED EXACTLY (higher block + line visible under them + flowers slightly bigger) */
+  /* ✅✅✅ GIFT 2 (FIXED): panda/flowers no longer pushed up, line is fixed above button */
   .gift2-stack{
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    transform: translateY(-80px);   /* ✅ move BOTH stickers + line higher */
+    transform: none; /* ✅ FIX: stop moving panda higher */
   }
 
   .sticker-wrap {
     display: flex;
-    gap: 18px;                     /* ✅ close side-by-side, no overlap */
+    gap: 18px;
     align-items: center;
     justify-content: center;
     margin-top: 0;
@@ -506,7 +473,7 @@
   }
 
   .sticker {
-    width: 380px;                  /* ✅ both smaller */
+    width: 380px;
     height: auto;
     filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
@@ -515,7 +482,7 @@
   }
 
   .sticker.flowers {
-    width: 627px;                  /* ✅ CHANGED: 1/3 bigger than 470px */
+    width: 627px; /* ✅ still 1/3 bigger */
     transform: rotate(-10deg) scale(0.92);
     animation: flowersIn 0.6s ease forwards;
   }
@@ -533,15 +500,19 @@
   }
 
   .gift2-line {
-    margin-top: 18px;              /* ✅ clearly under them */
-    margin-bottom: 120px;          /* ✅ CHANGED: sits above fixed Go back button */
+    position: fixed;              /* ✅ FIX: always visible */
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 92px;                 /* ✅ sits ABOVE the Go back button */
+    z-index: 8;                   /* ✅ above the button (7) */
     font-size: 40px;
     color: #91507F;
     opacity: 0.96;
     text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    white-space: nowrap;
+    pointer-events: none;
   }
 
-  /* ✅ ✅ ✅ GIFT 3 LETTER — UPDATED AS REQUESTED */
   .letter {
     width: min(760px, 90vw);
     border-radius: 28px;
@@ -574,7 +545,6 @@
 
 <div id="heartsLayer"></div>
 
-<!-- PAGE 1 -->
 <div id="page1" class="page">
   <h1 class="fade-up">Fatima… will you be my Valentine?</h1>
 
@@ -588,7 +558,6 @@
   </div>
 </div>
 
-<!-- PAGE 2 -->
 <div id="page2" class="page">
   <h2 class="fade-up">Yayyy! I knew you’d say yes ❤️</h2>
 
@@ -610,7 +579,6 @@
 
 <button id="moreBtn" type="button">One more thing…</button>
 
-<!-- PAGE 3 -->
 <div id="page3" class="page">
   <div class="fade-up">
     <div class="p3-title">I got you a few little surprises...</div>
@@ -629,7 +597,6 @@
   </div>
 </div>
 
-<!-- GIFT 1 PAGE -->
 <div id="gift1Page" class="gift-page">
   <div class="spotify-card">
     <div class="spotify-top">
@@ -658,25 +625,22 @@
   <button class="backBtn" id="backFromGift1" type="button">Go back</button>
 </div>
 
-<!-- GIFT 2 PAGE -->
 <div id="gift2Page" class="gift-page">
-  <!-- ✅ DO NOT CHANGE THIS TITLE (you didn’t ask to) -->
   <div class="p3-title">A little bouquet… and a panda 🐼</div>
 
-  <!-- ✅ stickers + line moved together so the line is not lost -->
   <div class="gift2-stack">
     <div class="sticker-wrap">
       <img class="sticker flowers" src="flowers.png" alt="">
       <img class="sticker panda" src="panda.png" alt="">
     </div>
-
-    <div class="gift2-line">I got this for you&lt;3</div>
   </div>
+
+  <!-- ✅ FIX: now ALWAYS visible above button -->
+  <div class="gift2-line">I got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
 </div>
 
-<!-- GIFT 3 PAGE -->
 <div id="gift3Page" class="gift-page">
   <div class="letter">
     <h3>For you ❤️</h3>
@@ -693,7 +657,6 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ✅ PAGE THEMES */
   const THEMES = {
     page1: {
       bg: "linear-gradient(to bottom, #FFE0EC 0%, #FFD0E2 100%)",
@@ -712,7 +675,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  /* HEARTS (palette changes per page) */
   let heartColors = THEMES.page1.hearts;
 
   let activeHearts = 0;
@@ -739,7 +701,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gp.style.color = t.text;
     });
 
-    /* ✅ HARD RESET: remove all existing hearts + restart timing */
     heartsLayer.innerHTML = "";
     activeHearts = 0;
     startTime = Date.now();
@@ -783,11 +744,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
-  function showHearts(show) {
-    heartsLayer.style.display = show ? "block" : "none";
-  }
-
-  /* NO BUTTON */
   const noBtn = document.getElementById("noBtn");
   const texts = ["Are you sure?", "Try again", "Nice try", "No escape", "Nah bossss", "Wait really...?"];
   let t = 0;
@@ -811,7 +767,6 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.transform = `translate(${moves[p].x}px, ${moves[p].y}px)`;
   };
 
-  /* ✅ Page 1 → Page 2: Soft Zoom + Fade */
   function zoomFadeToPage(fromEl, toEl) {
     fromEl.classList.add("transitioning");
     toEl.classList.add("transitioning");
@@ -828,7 +783,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   }
 
-  /* ✅ Page 2 → Page 3: Curtain reveal (whole page slides LEFT, slightly darker only while sliding) */
   function curtainLeftToPage(fromEl, toEl) {
     toEl.style.display = "flex";
 
@@ -852,10 +806,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  /* ✅ Apply initial theme (page1) */
   applyTheme("page1");
 
-  /* YES BUTTON (page1 -> page2) */
   document.getElementById("yesBtn").onclick = () => {
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
@@ -870,7 +822,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
   };
 
-  /* Page 2 -> Page 3 button */
   document.getElementById("moreBtn").onclick = () => {
     const page2 = document.getElementById("page2");
     const page3 = document.getElementById("page3");
@@ -882,7 +833,6 @@ document.addEventListener("DOMContentLoaded", () => {
     curtainLeftToPage(page2, page3);
   };
 
-  /* PAGE 3 gift pages */
   const gift1Page = document.getElementById("gift1Page");
   const gift2Page = document.getElementById("gift2Page");
   const gift3Page = document.getElementById("gift3Page");
@@ -929,7 +879,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("backFromGift2").onclick = () => closeGift(gift2Page);
   document.getElementById("backFromGift3").onclick = () => closeGift(gift3Page);
 
-  /* Gift 1 song controls (0:18 -> 2:26 + fade out) */
   const song = document.getElementById("giftSong");
   const playPauseBtn = document.getElementById("playPauseBtn");
   const progressFill = document.getElementById("progressFill");
