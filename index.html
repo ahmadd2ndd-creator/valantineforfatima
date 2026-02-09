@@ -487,53 +487,58 @@
   /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* ✅✅✅ GIFT 2 FIX (higher + closer + line) */
+  /* ✅✅✅ GIFT 2 (fixed correctly, responsive, higher, closer, line) */
   #gift2Page {
-    justify-content: flex-start; /* IMPORTANT: stop centering */
-    padding-top: 120px;          /* push content higher */
+    justify-content: center;
+  }
+
+  .gift2-content {
+    transform: translateY(-70px); /* ✅ higher on the screen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .sticker-wrap {
     display: flex;
-    gap: 0px;
-    align-items: center;
+    gap: 0;
+    align-items: flex-end;
     justify-content: center;
-    margin-top: 0;
-    transform: none;
   }
 
   .sticker {
-    width: 520px; /* panda base */
     height: auto;
-    filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
     outline: none;
     outline-offset: 0;
+    filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
+    will-change: transform, opacity;
   }
 
-  .sticker.flowers {
-    width: 620px; /* bigger flowers */
-    transform: rotate(-10deg) scale(0.92) translateX(-180px);
-    animation: flowersIn 0.6s ease forwards;
-  }
-
+  /* ✅ responsive sizing (works everywhere) */
   .sticker.panda {
-    transform: scale(0.92) translateX(180px);
+    width: min(42vw, 340px);
+    transform: scale(0.92) translateX(120px);
     animation: pandaIn 0.6s ease forwards;
   }
 
-  /* Final stays close */
+  .sticker.flowers {
+    width: min(48vw, 390px);
+    transform: rotate(-10deg) scale(0.92) translateX(-120px);
+    animation: flowersIn 0.6s ease forwards;
+  }
+
   @keyframes flowersIn {
-    to { transform: rotate(-10deg) scale(1) translateX(-12px); opacity: 1; }
+    to { transform: rotate(-10deg) scale(1) translateX(-10px); opacity: 1; }
   }
   @keyframes pandaIn {
-    to { transform: scale(1) translateX(12px); opacity: 1; }
+    to { transform: scale(1) translateX(10px); opacity: 1; }
   }
 
   .gift2-line {
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 40px;
-    color: #91507F; /* ✅ text color */
+    color: #91507F; /* ✅ best text color */
     opacity: 0.96;
     text-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
@@ -659,12 +664,15 @@
 <div id="gift2Page" class="gift-page">
   <div class="p3-title">A little bouquet… and a panda 🐼</div>
 
-  <div class="sticker-wrap">
-    <img class="sticker flowers" src="flowers.png" alt="">
-    <img class="sticker panda" src="panda.png" alt="">
-  </div>
+  <div class="gift2-content">
+    <div class="sticker-wrap">
+      <img class="sticker flowers" src="flowers.png" alt="">
+      <img class="sticker panda" src="panda.png" alt="">
+    </div>
 
-  <div class="gift2-line">Got this for you&lt;3</div>
+    <!-- ✅ This displays EXACTLY as: Got this for you<3 -->
+    <div class="gift2-line">Got this for you&lt;3</div>
+  </div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
 </div>
@@ -719,6 +727,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const t = THEMES[key];
     if (!t) return;
 
+    document.documentElement.style.background = = t.bg;
     document.documentElement.style.background = t.bg;
     document.body.style.background = t.bg;
     document.body.style.color = t.text;
@@ -732,7 +741,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gp.style.color = t.text;
     });
 
-    /* ✅ HARD RESET: remove all existing hearts + restart timing */
     heartsLayer.innerHTML = "";
     activeHearts = 0;
     startTime = Date.now();
@@ -800,7 +808,6 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.transform = `translate(${moves[p].x}px, ${moves[p].y}px)`;
   };
 
-  /* ✅ Page 1 → Page 2: Soft Zoom + Fade */
   function zoomFadeToPage(fromEl, toEl) {
     fromEl.classList.add("transitioning");
     toEl.classList.add("transitioning");
@@ -811,16 +818,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       fromEl.style.display = "none";
-
       fromEl.classList.remove("transitioning", "zoomFade-out");
       toEl.classList.remove("transitioning", "zoomFade-in");
     }, 1300);
   }
 
-  /* ✅ Page 2 → Page 3: Curtain reveal */
   function curtainLeftToPage(fromEl, toEl) {
     toEl.style.display = "flex";
-
     toEl.style.zIndex = "1";
     fromEl.style.zIndex = "2";
 
@@ -832,19 +836,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       fromEl.style.display = "none";
-
       fromEl.classList.remove("transitioning", "curtain-left-out");
       toEl.classList.remove("transitioning", "curtain-reveal-in");
-
       fromEl.style.zIndex = "";
       toEl.style.zIndex = "";
     }, 3000);
   }
 
-  /* ✅ Apply initial theme (page1) */
   applyTheme("page1");
 
-  /* YES BUTTON (page1 -> page2) */
   document.getElementById("yesBtn").onclick = () => {
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
@@ -859,7 +859,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
   };
 
-  /* Page 2 -> Page 3 button */
   document.getElementById("moreBtn").onclick = () => {
     const page2 = document.getElementById("page2");
     const page3 = document.getElementById("page3");
@@ -871,23 +870,20 @@ document.addEventListener("DOMContentLoaded", () => {
     curtainLeftToPage(page2, page3);
   };
 
-  /* PAGE 3 gift pages */
   const gift1Page = document.getElementById("gift1Page");
   const gift2Page = document.getElementById("gift2Page");
   const gift3Page = document.getElementById("gift3Page");
 
-  function restartGift2Stickers() {
+  function restartGift2() {
     const flowers = gift2Page.querySelector(".sticker.flowers");
     const panda = gift2Page.querySelector(".sticker.panda");
     if (!flowers || !panda) return;
 
-    // reset opacity + restart animations reliably
     [flowers, panda].forEach(el => {
       el.style.animation = "none";
       el.style.opacity = "0";
     });
 
-    // force reflow
     void gift2Page.offsetHeight;
 
     [flowers, panda].forEach(el => {
@@ -897,7 +893,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openGift(giftPageEl) {
     giftPageEl.style.display = "flex";
-    if (giftPageEl === gift2Page) restartGift2Stickers(); // ✅ IMPORTANT
+    if (giftPageEl === gift2Page) restartGift2();
   }
 
   function closeGift(giftPageEl) {
@@ -920,16 +916,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const gift2El = document.getElementById("gift2");
   const gift3El = document.getElementById("gift3");
 
-  gift1El.addEventListener("animationend", (e) => {
-    if (e.animationName === "giftOpenBounce") gift1El.classList.remove("open-bounce");
-  });
-  gift2El.addEventListener("animationend", (e) => {
-    if (e.animationName === "giftOpenBounce") gift2El.classList.remove("open-bounce");
-  });
-  gift3El.addEventListener("animationend", (e) => {
-    if (e.animationName === "giftOpenBounce") gift3El.classList.remove("open-bounce");
-  });
-
   gift1El.onclick = () => bounceAndOpen(gift1El, gift1Page, true);
   gift2El.onclick = () => bounceAndOpen(gift2El, gift2Page, false);
   gift3El.onclick = () => bounceAndOpen(gift3El, gift3Page, false);
@@ -938,7 +924,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("backFromGift2").onclick = () => closeGift(gift2Page);
   document.getElementById("backFromGift3").onclick = () => closeGift(gift3Page);
 
-  /* Gift 1 song controls */
   const song = document.getElementById("giftSong");
   const playPauseBtn = document.getElementById("playPauseBtn");
   const progressFill = document.getElementById("progressFill");
