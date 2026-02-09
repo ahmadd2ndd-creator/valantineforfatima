@@ -487,58 +487,53 @@
   /* ✅ NO bottom timing => timeRow hidden */
   .timeRow { display: none; }
 
-  /* ✅✅✅ GIFT 2 (fixed correctly, responsive, higher, closer, line) */
-  #gift2Page {
-    justify-content: center;
-  }
-
-  .gift2-content {
-    transform: translateY(-70px); /* ✅ higher on the screen */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
+  /* ✅✅✅ GIFT 2 — ACTUAL VISIBLE CHANGES (higher + much closer + text line) */
   .sticker-wrap {
     display: flex;
-    gap: 0;
-    align-items: flex-end;
+    gap: 0px;
+    align-items: center;
     justify-content: center;
+
+    /* higher on page */
+    margin-top: -40px;
+    transform: translateY(-110px);
   }
 
   .sticker {
+    width: 520px;
     height: auto;
+    filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     opacity: 0;
     outline: none;
     outline-offset: 0;
-    filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
-    will-change: transform, opacity;
   }
 
-  /* ✅ responsive sizing (works everywhere) */
-  .sticker.panda {
-    width: min(42vw, 340px);
-    transform: scale(0.92) translateX(120px);
-    animation: pandaIn 0.6s ease forwards;
-  }
-
+  /* flowers bigger + tilt left */
   .sticker.flowers {
-    width: min(48vw, 390px);
-    transform: rotate(-10deg) scale(0.92) translateX(-120px);
+    width: 620px;
+    transform: rotate(-10deg) scale(0.92) translateX(-140px);
     animation: flowersIn 0.6s ease forwards;
   }
 
-  @keyframes flowersIn {
-    to { transform: rotate(-10deg) scale(1) translateX(-10px); opacity: 1; }
-  }
-  @keyframes pandaIn {
-    to { transform: scale(1) translateX(10px); opacity: 1; }
+  /* panda comes in too */
+  .sticker.panda {
+    transform: scale(0.92) translateX(140px);
+    animation: pandaIn 0.6s ease forwards;
   }
 
+  /* FINAL POSITION STAYS CLOSE (NOT 0) */
+  @keyframes flowersIn {
+    to { transform: rotate(-10deg) scale(1) translateX(-20px); opacity: 1; }
+  }
+  @keyframes pandaIn {
+    to { transform: scale(1) translateX(20px); opacity: 1; }
+  }
+
+  /* line under panda + flowers */
   .gift2-line {
-    margin-top: 18px;
+    margin-top: -65px; /* sits under the stickers */
     font-size: 40px;
-    color: #91507F; /* ✅ best text color */
+    color: #91507F;
     opacity: 0.96;
     text-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
@@ -664,15 +659,13 @@
 <div id="gift2Page" class="gift-page">
   <div class="p3-title">A little bouquet… and a panda 🐼</div>
 
-  <div class="gift2-content">
-    <div class="sticker-wrap">
-      <img class="sticker flowers" src="flowers.png" alt="">
-      <img class="sticker panda" src="panda.png" alt="">
-    </div>
-
-    <!-- ✅ This displays EXACTLY as: Got this for you<3 -->
-    <div class="gift2-line">Got this for you&lt;3</div>
+  <div class="sticker-wrap">
+    <img class="sticker flowers" src="flowers.png" alt="">
+    <img class="sticker panda" src="panda.png" alt="">
   </div>
+
+  <!-- ✅ REQUIRED LINE -->
+  <div class="gift2-line">Got this for you&lt;3</div>
 
   <button class="backBtn" id="backFromGift2" type="button">Go back</button>
 </div>
@@ -727,7 +720,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const t = THEMES[key];
     if (!t) return;
 
-    document.documentElement.style.background = = t.bg;
     document.documentElement.style.background = t.bg;
     document.body.style.background = t.bg;
     document.body.style.color = t.text;
@@ -741,6 +733,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gp.style.color = t.text;
     });
 
+    /* ✅ HARD RESET: remove all existing hearts + restart timing */
     heartsLayer.innerHTML = "";
     activeHearts = 0;
     startTime = Date.now();
@@ -784,6 +777,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
+  function showHearts(show) {
+    heartsLayer.style.display = show ? "block" : "none";
+  }
+
   /* NO BUTTON */
   const noBtn = document.getElementById("noBtn");
   const texts = ["Are you sure?", "Try again", "Nice try", "No escape", "Nah bossss", "Wait really...?"];
@@ -808,6 +805,7 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.transform = `translate(${moves[p].x}px, ${moves[p].y}px)`;
   };
 
+  /* ✅ Page 1 → Page 2: Soft Zoom + Fade */
   function zoomFadeToPage(fromEl, toEl) {
     fromEl.classList.add("transitioning");
     toEl.classList.add("transitioning");
@@ -818,13 +816,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       fromEl.style.display = "none";
+
       fromEl.classList.remove("transitioning", "zoomFade-out");
       toEl.classList.remove("transitioning", "zoomFade-in");
     }, 1300);
   }
 
+  /* ✅ Page 2 → Page 3: Curtain reveal (whole page slides LEFT, slightly darker only while sliding) */
   function curtainLeftToPage(fromEl, toEl) {
     toEl.style.display = "flex";
+
     toEl.style.zIndex = "1";
     fromEl.style.zIndex = "2";
 
@@ -836,15 +837,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       fromEl.style.display = "none";
+
       fromEl.classList.remove("transitioning", "curtain-left-out");
       toEl.classList.remove("transitioning", "curtain-reveal-in");
+
       fromEl.style.zIndex = "";
       toEl.style.zIndex = "";
     }, 3000);
   }
 
+  /* ✅ Apply initial theme (page1) */
   applyTheme("page1");
 
+  /* YES BUTTON (page1 -> page2) */
   document.getElementById("yesBtn").onclick = () => {
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
@@ -859,6 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
   };
 
+  /* Page 2 -> Page 3 button */
   document.getElementById("moreBtn").onclick = () => {
     const page2 = document.getElementById("page2");
     const page3 = document.getElementById("page3");
@@ -870,30 +876,13 @@ document.addEventListener("DOMContentLoaded", () => {
     curtainLeftToPage(page2, page3);
   };
 
+  /* PAGE 3 gift pages */
   const gift1Page = document.getElementById("gift1Page");
   const gift2Page = document.getElementById("gift2Page");
   const gift3Page = document.getElementById("gift3Page");
 
-  function restartGift2() {
-    const flowers = gift2Page.querySelector(".sticker.flowers");
-    const panda = gift2Page.querySelector(".sticker.panda");
-    if (!flowers || !panda) return;
-
-    [flowers, panda].forEach(el => {
-      el.style.animation = "none";
-      el.style.opacity = "0";
-    });
-
-    void gift2Page.offsetHeight;
-
-    [flowers, panda].forEach(el => {
-      el.style.animation = "";
-    });
-  }
-
   function openGift(giftPageEl) {
     giftPageEl.style.display = "flex";
-    if (giftPageEl === gift2Page) restartGift2();
   }
 
   function closeGift(giftPageEl) {
@@ -916,6 +905,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const gift2El = document.getElementById("gift2");
   const gift3El = document.getElementById("gift3");
 
+  gift1El.addEventListener("animationend", (e) => {
+    if (e.animationName === "giftOpenBounce") gift1El.classList.remove("open-bounce");
+  });
+  gift2El.addEventListener("animationend", (e) => {
+    if (e.animationName === "giftOpenBounce") gift2El.classList.remove("open-bounce");
+  });
+  gift3El.addEventListener("animationend", (e) => {
+    if (e.animationName === "giftOpenBounce") gift3El.classList.remove("open-bounce");
+  });
+
   gift1El.onclick = () => bounceAndOpen(gift1El, gift1Page, true);
   gift2El.onclick = () => bounceAndOpen(gift2El, gift2Page, false);
   gift3El.onclick = () => bounceAndOpen(gift3El, gift3Page, false);
@@ -924,6 +923,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("backFromGift2").onclick = () => closeGift(gift2Page);
   document.getElementById("backFromGift3").onclick = () => closeGift(gift3Page);
 
+  /* Gift 1 song controls (0:18 -> 2:26 + fade out) */
   const song = document.getElementById("giftSong");
   const playPauseBtn = document.getElementById("playPauseBtn");
   const progressFill = document.getElementById("progressFill");
